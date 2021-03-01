@@ -4,7 +4,7 @@
 The goal of this project it to implement a reliable file transfer (RFT) protocol as an additional service on top of UDP.
 
 
-##Build
+## Build
 In this repository contains you will find four source files written in c: `src/client.c`, `src/server.c`, `src/helpers.c`, and `src/state.c`. In addition, you will find accompanying header files and a CMake file at `src/CMakeLists.txt`.
 Note: the server must be started first and then the client soon after. 
 
