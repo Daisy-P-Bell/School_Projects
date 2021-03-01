@@ -1,0 +1,1318 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Ride Share API",
+    "description": "`API` for Daisy Bell & Matthias Dean's **COS 243** Semester Project",
+    "version": "0.1.0"
+  },
+  "tags": [
+    {
+      "name": "user",
+      "description": "Ride Share users"
+    },
+    {
+      "name": "vehicle-type",
+      "description": "Vehicle types"
+    },
+    {
+      "name": "driver",
+      "description": "Ride Share drivers"
+    },
+    {
+      "name": "authorization",
+      "description": "Drivers authorized to drive a given vehicle"
+    },
+    {
+      "name": "drivers",
+      "description": "Drivers for a given ride"
+    },
+    {
+      "name": "vehicle",
+      "description": "Ride share vehicles"
+    },
+    {
+      "name": "ride",
+      "description": "Ride share rides"
+    },
+    {
+      "name": "passenger",
+      "description": "Ride share passengers on a ride"
+    },
+    {
+      "name": "location",
+      "description": "Ride share locations"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "Error": {
+        "description": "Generic error message",
+        "type": "object",
+        "properties": {
+          "message": { "type": "string" }
+        },
+        "example": {
+          "message": "Something strange happened."
+        }
+      },
+      "User": {
+        "description": "Each user of **Ride Share**",
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "firstName": { "type": "string" },
+          "lastName": { "type": "string" },
+          "email": { "type": "string" },
+          "password": { "type": "string" },
+          "phone": { "type": "string" },
+          "isAdmin": { "type": "boolean" }
+        },
+        "example": {
+          "id": 42,
+          "firstName": "Fred",
+          "lastName": "Ziffle",
+          "email": "fred@example.com",
+          "password": "super-secret-thing",
+          "phone": "765-555-1212",
+          "isAdmin": false
+        }
+      },
+      "Driver": {
+          "description": "Each driver of **Ride Share**",
+          "type": "object",
+          "properties": {
+            "driver_id" : { "type": "integer" },
+            "user_id": { "type": "integer" },
+            "licenseNumber": { "type": "string" },
+            "licenseState": { "type": "string" }
+          },
+          "example": {
+            "driver_id" : 25,
+            "user_id": 26,
+            "licenseNumber": "D135AM",
+            "licenseState": "AZ"
+          }
+        },
+      "Authorization": {
+          "description": "Each driver and their associated vehicle of **Ride Share**",
+          "type": "object",
+          "properties": {
+            "driver_id" : { "type": "integer" },
+            "vehicle_id": { "type": "integer" }
+          },
+          "example": {
+            "driver_id" : 25,
+            "vehicle_id": 26
+          }
+        },
+      "Drivers": {
+          "description": "Each driver and a given ride of **Ride Share**",
+          "type": "object",
+          "properties": {
+            "driver_id" : { "type": "integer" },
+            "ride_id": { "type": "integer" }
+          },
+          "example": {
+            "driver_id" : 25,
+            "ride_id": 26
+          }
+        },
+      "Vehicle": {
+          "description": "Vehicles that give rides in **Ride Share**",
+          "type": "object",
+          "properties": {
+            "vehicle_id" : { "type": "integer" },
+            "make": { "type": "string" },
+            "model": { "type": "string" },
+            "color": { "type": "string" },
+            "vehicle_type_id": { "type": "integer" },
+            "capacity": { "type": "integer" },
+            "mpg": { "type": "integer" },
+            "licence_state": { "type": "string" },
+            "licence_plate": { "type": "string" }
+          },
+          "example": {
+            "vehicle_id": 3 ,
+            "make": "toyota" ,
+            "model": "avalon",
+            "color": "blue",
+            "vehicle_type_id": 25,
+            "capacity": 4,
+            "mpg": 15.9,
+            "licence_state": "AZ",
+            "licence_plate": "123ABC"
+          }
+        },
+      "Ride": {
+          "description": "Instances of rides in **Ride Share**",
+          "type": "object",
+          "properties": {
+            "ride_id" : { "type": "integer" },
+            "date": { "type": "string" },
+            "time": { "type": "string" },
+            "distance": { "type": "integer" },
+            "fuel_price": { "type": "integer" },
+            "fee": { "type": "integer" },
+            "vehicle_id": { "type": "integer" },
+            "from_location_id": { "type": "integer" },
+            "to_location_id": { "type": "integer" }
+          },
+          "example": {
+            "ride_id" : 1 ,
+            "date": "halloween",
+            "time": "noon",
+            "distance": 23.5,
+            "fuel_price": 1.99,
+            "fee": 12.00,
+            "vehicle_id": 7,
+            "from_location_id": 24,
+            "to_location_id": 23
+          }
+        },
+      "Passenger": {
+          "description": "Passenger ride association in **Ride Share**",
+          "type": "object",
+          "properties": {
+            "passenger_id" : { "type": "integer" },
+            "ride_id": { "type": "integer" }
+          },
+          "example": {
+            "passenger_id" : 12,
+            "ride_id": 5
+          }
+        },
+      "Location": {
+          "description": "Locations of **Ride Share**",
+          "type": "object",
+          "properties": {
+            "location_id" : { "type": "integer" },
+            "name": { "type": "string" },
+            "address": { "type": "string" },
+            "city": { "type": "string" },
+            "state": { "type": "string" },
+            "zip_code": { "type": "string" }
+          },
+          "example": {
+            "location_id" : 1,
+            "name": "Terre Haute",
+            "address": "123 Dr. Nurk Lane",
+            "city": "Phoenix",
+            "state": "AZ",
+            "zip_code": "15943"
+          }
+        },
+      "VehicleType": {
+        "description": "Type of a vehicle",
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "vehicleType": { "type": "string" }
+        },
+        "example": {
+          "id": 42,
+          "type": "Pickup Truck"
+        }
+      }
+    }
+  },
+  "paths": {
+    "/users": {
+      "summary": "Operations on users",
+      "get": {
+        "summary": "Get all users",
+        "tags": ["user"],
+        "responses": {
+          "200": {
+            "description": "All users fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new user",
+        "tags": ["user"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created sucessfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "userId": {
+                      "type": "integer"
+                    }
+                  },
+                  "example": {
+                    "userId": 42
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Not created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Duplicate email address"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "summary": "Operations on a single user",
+      "get": {
+        "summary": "Get user by ID",
+        "tags": ["user"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of user to fetch",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User not found"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update an existing user",
+        "tags": ["user"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of user to fetch",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated user",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "firstName": {
+                    "type": "string"
+                  },
+                  "lastName": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  },
+                  "isAdmin": {
+                    "type": "boolean"
+                  }
+                },
+                "example": {
+                  "firstName": "Fred",
+                  "lastName": "Ziffle",
+                  "email": "fred@example.com",
+                  "password": "super-secret-thing",
+                  "phone": "765-555-1212",
+                  "isAdmin": false
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "No such user ID"
+          }
+        }
+      }
+    },
+    "/driver": {
+      "post": {
+        "summary": "Create a new driver.",
+        "description": "Drivers",
+        "tags": ["driver"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "driver_id" : { "type": "integer" },
+                  "user_id": { "type": "integer" },
+                  "licenseNumber": { "type": "string" },
+                  "licenseState": { "type": "string" }
+                },
+                "example": {
+                  "driver_id" : 25,
+                  "user_id": 26,
+                  "licenseNumber": "D135AM",
+                  "licenseState": "AZ"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "New driver created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Driver"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/driver/{id}": {
+      "delete": {
+        "summary": "Delete an existing driver",
+        "tags": ["driver"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": { "type": "integer" },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Driver deleted"
+          },
+          "400": {
+            "description": "Can't delete driver"
+          }
+        }
+      }
+    },
+    "/drivers": {
+      "post": {
+        "summary": "Create a new driver ride association.",
+        "description": "Driver ride association",
+        "tags": ["drivers"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "driver_id" : { "type": "integer" },
+                  "ride_id": { "type": "integer" }
+                },
+                "example": {
+                  "driver_id" : 25,
+                  "ride_id": 26
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "New driver ride association created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Drivers"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/drivers/{id}": {
+      "delete": {
+        "summary": "Delete an existing driver ride association",
+        "tags": ["drivers"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": { "type": "integer" },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Driver ride association deleted"
+          },
+          "400": {
+            "description": "Can't delete driver ride association"
+          }
+        }
+      }
+    },
+    "/authorization": {
+      "post": {
+        "summary": "Create a new authorization.",
+        "description": "Authorizations",
+        "tags": ["authorization"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "driver_id" : { "type": "integer" },
+                  "vehicle_id": { "type": "integer" }
+                },
+                "example": {
+                  "driver_id" : 25,
+                  "vehicle_id": 26
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "New authorization created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Authorization"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/authorization/{id}": {
+      "delete": {
+        "summary": "Delete a driver's authorization",
+        "tags": ["authorization"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": { "type": "integer" },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authorization deleted"
+          },
+          "400": {
+            "description": "Can't delete authorization"
+          }
+        }
+      }
+    },
+    "/vehicle-types": {
+      "post": {
+        "summary": "Create a new vehicle type.",
+        "description": "_Each_ vehicle in **Ride Share** has a `type`, making it easier for riders to identify the vehicle.",
+        "tags": ["vehicle-type"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "vehicleType": { "type": "string" }
+                },
+                "example": {
+                  "vehicleType": "Pickup Truck"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "New vehicle type created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VehicleType"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Retrieve all vehicle types",
+        "tags": ["vehicle-type"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/VehicleType"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vehicle-types/{id}": {
+      "patch": {
+        "summary": "Update an existing vehicle type",
+        "tags": ["vehicle-type"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": { "type": "integer" },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "description": "Updated vehicle type",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "vehicleType": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "vehicleType": "SUV"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VehicleType"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "No such vehicle ID"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete an existing vehicle type",
+        "tags": ["vehicle-type"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": { "type": "integer" },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vehicle deleted"
+          },
+          "400": {
+            "description": "Can't delete vehicle"
+          }
+        }
+      }
+    },
+    "/vehicle": {
+      "summary": "Operations on vehicles",
+      "get": {
+        "summary": "Get all vehicles",
+        "tags": ["vehicle"],
+        "responses": {
+          "200": {
+            "description": "All vehicles fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Vehicle"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new vehicle",
+        "tags": ["vehicle"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Vehicle"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created sucessfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                    "properties": {
+                      "vehicle_id" : { "type": "integer" },
+                      "make": { "type": "string" },
+                      "model": { "type": "string" },
+                      "color": { "type": "string" },
+                      "vehicle_type_id": { "type": "integer" },
+                      "capacity": { "type": "integer" },
+                      "mpg": { "type": "integer" },
+                      "licence_state": { "type": "string" },
+                      "licence_plate": { "type": "string" }
+                    },
+                    "example": {
+                      "vehicle_id": 3 ,
+                      "make": "toyota" ,
+                      "model": "avalon",
+                      "color": "blue",
+                      "vehicle_type_id": 25,
+                      "capacity": 4,
+                      "mpg": 15.9,
+                      "licence_state": "AZ",
+                      "licence_plate": "123ABC"
+                    }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Not created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Duplicate vehicle"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vehicle/{id}": {
+      "summary": "Operations on a single vehicle",
+      "get": {
+        "summary": "Get vehicle by ID",
+        "tags": ["vehicle"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of user to fetch",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Vehicle"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Vehicle not found"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update an existing vehicle",
+        "tags": ["vehicle"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of vehicle to fetch",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated vehicle",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "make": { "type": "string" },
+                  "model": { "type": "string" },
+                  "color": { "type": "string" },
+                  "vehicle_type_id": { "type": "integer" },
+                  "capacity": { "type": "integer" },
+                  "mpg": { "type": "integer" },
+                  "licence_state": { "type": "string" },
+                  "licence_plate": { "type": "string" }
+                },
+                "example": {
+                  "make": "toyota" ,
+                  "model": "avalon",
+                  "color": "blue",
+                  "vehicle_type_id": 25,
+                  "capacity": 4,
+                  "mpg": 15.9,
+                  "licence_state": "AZ",
+                  "licence_plate": "123ABC"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Vehicle"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "No such vehicle ID"
+          }
+        }
+      }
+    },
+    "/passenger": {
+      "post": {
+        "summary": "Create a new passenger ride association.",
+        "description": "Passengers",
+        "tags": ["passneger"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "passenger_id" : { "type": "integer" },
+                  "ride_id": { "type": "integer" }
+                },
+                "example": {
+                  "passenger_id" : 12,
+                  "ride_id": 5
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "New passenger ride association created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Passenger"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/passenger/{id}": {
+      "delete": {
+        "summary": "Delete an existing passenger ride association",
+        "tags": ["passenger"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": { "type": "integer" },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Passenger ride association deleted"
+          },
+          "400": {
+            "description": "Can't delete passenger ride association"
+          }
+        }
+      }
+    },
+    "/ride": {
+      "post": {
+        "summary": "Create a new ride.",
+        "description": "Create a new ride in **Ride Share**",
+        "tags": ["ride"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                  "properties": {
+                    "ride_id" : { "type": "integer" },
+                    "date": { "type": "string" },
+                    "time": { "type": "string" },
+                    "distance": { "type": "integer" },
+                    "fuel_price": { "type": "integer" },
+                    "fee": { "type": "integer" },
+                    "vehicle_id": { "type": "integer" },
+                    "from_location_id": { "type": "integer" },
+                    "to_location_id": { "type": "integer" }
+                  },
+                  "example": {
+                    "ride_id" : 1 ,
+                    "date": "halloween",
+                    "time": "noon",
+                    "distance": 23.5,
+                    "fuel_price": 1.99,
+                    "fee": 12.00,
+                    "vehicle_id": 7,
+                    "from_location_id": 24,
+                    "to_location_id": 23
+                  }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "New ride instance created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ride"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Retrieve all rides",
+        "tags": ["ride"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Ride"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ride/{id}": {
+      "get": {
+        "summary": "Get ride by ID",
+        "tags": ["ride"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of vehicle to fetch",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ride"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Ride not found"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update an existing ride instance",
+        "tags": ["ride"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": { "type": "integer" },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "description": "Updated ride",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                  "properties": {
+                    "date": { "type": "string" },
+                    "time": { "type": "string" },
+                    "distance": { "type": "integer" },
+                    "fuel_price": { "type": "integer" },
+                    "fee": { "type": "integer" },
+                    "vehicle_id": { "type": "integer" },
+                    "from_location_id": { "type": "integer" },
+                    "to_location_id": { "type": "integer" }
+                  },
+                  "example": {
+                    "date": "halloween",
+                    "time": "noon",
+                    "distance": 23.5,
+                    "fuel_price": 1.99,
+                    "fee": 12.00,
+                    "vehicle_id": 7,
+                    "from_location_id": 24,
+                    "to_location_id": 23
+                  }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ride"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "No such ride ID"
+          }
+        }
+      }
+    },
+    "/location": {
+      "summary": "Operations on locations",
+      "get": {
+        "summary": "Get all locations",
+        "tags": ["location"],
+        "responses": {
+          "200": {
+            "description": "All locations fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Location"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new location",
+        "tags": ["location"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Location"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created sucessfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                    "properties": {
+                      "location_id" : { "type": "integer" },
+                      "name": { "type": "string" },
+                      "address": { "type": "string" },
+                      "city": { "type": "string" },
+                      "state": { "type": "string" },
+                      "zip_code": { "type": "string" }
+                    },
+                    "example": {
+                      "location_id" : 1,
+                      "name": "Terre Haute",
+                      "address": "123 Dr. Nurk Lane",
+                      "city": "Phoenix",
+                      "state": "AZ",
+                      "zip_code": "15943"
+                    }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Not created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Duplicate location"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/locations/{id}": {
+      "summary": "Operations on a single location",
+      "get": {
+        "summary": "Get location by ID",
+        "tags": ["location"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of location to fetch",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved location",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Location"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Location not found"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update an existing location",
+        "tags": ["location"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of location to update",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated location",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                  "properties": {
+                    "name": { "type": "string" },
+                    "address": { "type": "string" },
+                    "city": { "type": "string" },
+                    "state": { "type": "string" },
+                    "zip_code": { "type": "string" }
+                  },
+                  "example": {
+                    "name": "Terre Haute",
+                    "address": "123 Dr. Nurk Lane",
+                    "city": "Phoenix",
+                    "state": "AZ",
+                    "zip_code": "15943"
+                  }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Location"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "No such location ID"
+          }
+        }
+      }
+    },
+    "/locations{name?,address?,city?,state?,zip?}": {
+      "summary": "Search on a single location given params",
+      "get": {
+        "summary": "Get location by specified params",
+        "tags": ["location"],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": false,
+            "description": "Name of location to fetch",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "address",
+            "in": "path",
+            "required": false,
+            "description": "Address of location to fetch",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "city",
+            "in": "path",
+            "required": false,
+            "description": "City name of location to fetch",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "state",
+            "in": "path",
+            "required": false,
+            "description": "State name of location to fetch",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "zip_code",
+            "in": "path",
+            "required": false,
+            "description": "Zip code of location to fetch",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved location",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Location"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Location not found"
+          }
+        }
+      }
+    }   
+  }
+}
