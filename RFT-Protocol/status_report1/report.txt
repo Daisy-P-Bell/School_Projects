@@ -1,0 +1,18 @@
+What have you done this week?
+Daisy: I am working on the server.c, and I implemented the ip header, udp header, datagram creation, and sending over the socket. I had problems getting root permissions on clion, but eventually figured it out and can successfully send a datagram.
+Matt: I am working mostly on the client. I set it up to fulfill requirements for milestone 2. I also started the barebones for the finite state machine.
+
+
+Meeting times:
+Monday: Met for the duration of normal class time (until 2:55)
+Wednesday: Met for an hour during class time (until 3:05)
+Friday: Met for an hour during class time (until 3:15)
+
+
+What are we planning to do next week?
+Next week we are planning to finish milestone 3. We need to figure out how to properly parse the UDP packet once it is received. We also need to implement the timer shenanigans.
+
+
+What roadblocks are we facing?
+The proposed solution for putting datagram creation into a function didn’t work as intended, it didn’t correctly create a datagram.
+We are getting a lot of what is presumably metadata with our received UDP datagram. We need to weed out what is not the actual data.
