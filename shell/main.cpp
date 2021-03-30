@@ -1,16 +1,11 @@
 /* $begin shellmain */
 //premade code and csapp.h from Computer Systems: A Programmer's Perspective
-//as opposed to straight man pages, I used geeksforgeeks, a more straightforward man page in my opinion
-//for example, I used geeksforgeeks on chdir() to see parameters and return values
-//also my code is hideous, I'm so sorry, my PATH stuff is so jank
 
 #include "csapp.h"
 #define MAXARGS   128
 #include <string>
 #include <regex>
 #include <iostream>
-
-
 
 /* Function prototypes */
 void eval(char *cmdline);
@@ -76,7 +71,6 @@ int redirection_lt(char *argv[], char *cmdline){ //input
         myargs[i] = argv[i];
     }
 
-
     for(i = 0; myargs[i] != NULL; i++) {
         if(strcmp(myargs[i], "<") == 0) {
 
@@ -88,56 +82,18 @@ int redirection_lt(char *argv[], char *cmdline){ //input
         }
     }
 
-
-
-
     int pid = fork();
     if (pid < 0) {
         fprintf(stderr,"fork failed\n");
         exit(1);
     }
     else if (pid == 0) { //child
-
-
-        /*
-         * int i = 0;
-    int j = 0;
-    for (i = 0; argv[i] != nullptr; i++) {
-        if (!strcmp(argv[i], "<")) {
-            myargs[i] = argv[j];
-            j++;
-        }
-    }
-    myargs[i] = nullptr;
-         * if (strcmp(argv[1], "<") != 0){
-            return 0;
-        }
-         *
-            for (int ii = i; cmdline[ii - 1] != nullptr; ii++) {
-                printf("CMD: %s", cmdline[ii]);
-                cmdline[ii] = cmdline[ii + 2];
-
-            }
-        }
-         */
-        //char *myargs[3];
-        //printf ("STARTL\n");
-        //printf(myargs[0]);
-        //printf(myargs[1]);
-        //printf(myargs[2]);
-        //myargs[0] = strdup(argv[0]);
-        //myargs[1] = strdup(argv[2]);
-        //myargs[2] = nullptr;
-
-        //freopen(filename, "r", stdin);
+        
         if (execvp(argv[0], myargs) < 0) {
             printf("execve error\n");
             printf("errno: %d\n", errno);
             exit(1);
         }
-
-
-
     }
     else{
         int status;
@@ -145,36 +101,6 @@ int redirection_lt(char *argv[], char *cmdline){ //input
             printf("waitpid error");
         }
     }
-
-
-
-
-
-/*
-    if(pid == 0){ //child
-        printf("The child lives\n");
-        close(STDIN_FILENO);
-        std::string cmdl = cmdline;
-        std::string file_name = cmdl.substr((cmdl.find("<")+1), string::npos);
-        std::cout << "filename:" << file_name;
-        char *filee = &file_name[0];
-        open(filee, O_CREAT|O_WRONLY|O_TRUNC, S_IRWXU);
-
-        //now exec process
-        printf(argv[0]);
-        if(execve(argv[0], argv, environ) < 0){
-            printf("execve error\n");
-            printf("errno: %d\n", errno);
-        }
-
-    }
-    else{
-        int status;
-        if (waitpid(pid, &status, 0) < 0){
-            printf("waitpid error");
-        }
-    }
-    */
     return 0;
 }
 
@@ -204,10 +130,6 @@ int redirection_gt(char *argv[], char *cmdline){
             break;
         }
     }
-
-
-
-
     int pid = fork();
     if (pid < 0) {
         fprintf(stderr,"fork failed\n");
@@ -216,45 +138,13 @@ int redirection_gt(char *argv[], char *cmdline){
     else if (pid == 0) { //child
 
 
-        /*
-         * int i = 0;
-    int j = 0;
-    for (i = 0; argv[i] != nullptr; i++) {
-        if (!strcmp(argv[i], "<")) {
-            myargs[i] = argv[j];
-            j++;
-        }
-    }
-    myargs[i] = nullptr;
-         * if (strcmp(argv[1], "<") != 0){
-            return 0;
-        }
-         *
-            for (int ii = i; cmdline[ii - 1] != nullptr; ii++) {
-                printf("CMD: %s", cmdline[ii]);
-                cmdline[ii] = cmdline[ii + 2];
-
-            }
-        }
-         */
-        //char *myargs[3];
-        //printf ("STARTL\n");
-        //printf(myargs[0]);
-        //printf(myargs[1]);
-        //printf(myargs[2]);
-        //myargs[0] = strdup(argv[0]);
-        //myargs[1] = strdup(argv[2]);
-        //myargs[2] = nullptr;
-
-        //freopen(filename, "r", stdin);
+       
         if (execvp(argv[0], myargs) < 0) {
             printf("execve error\n");
             printf("errno: %d\n", errno);
             exit(1);
         }
 
-
-
     }
     else{
         int status;
@@ -265,33 +155,6 @@ int redirection_gt(char *argv[], char *cmdline){
 
 
 
-
-
-/*
-    if(pid == 0){ //child
-        printf("The child lives\n");
-        close(STDIN_FILENO);
-        std::string cmdl = cmdline;
-        std::string file_name = cmdl.substr((cmdl.find("<")+1), string::npos);
-        std::cout << "filename:" << file_name;
-        char *filee = &file_name[0];
-        open(filee, O_CREAT|O_WRONLY|O_TRUNC, S_IRWXU);
-
-        //now exec process
-        printf(argv[0]);
-        if(execve(argv[0], argv, environ) < 0){
-            printf("execve error\n");
-            printf("errno: %d\n", errno);
-        }
-
-    }
-    else{
-        int status;
-        if (waitpid(pid, &status, 0) < 0){
-            printf("waitpid error");
-        }
-    }
-    */
     return 0;
 }
 
@@ -365,8 +228,6 @@ int pipe_attempt(char *argv[], char *cmdline){
             exit(1);
         }
 
-
-
     }
     else{
 
@@ -400,8 +261,6 @@ int pipe_attempt(char *argv[], char *cmdline){
            // printf("escaped");
         }
     }
-
-
 
     return 0;
 }
